@@ -16,35 +16,67 @@ type Profile struct {
 }
 
 type Skill struct {
-	Name      string
-	CurrentXP int
-	Level     int
+	Name      string `json:"name"`
+	CurrentXP int    `json:"experience"`
+	Level     int    `json:"level"`
+	Rank      int    `json:"rank"`
+	ID        int    `json:"id"`
 }
 
 type APISkill struct {
-	data []*Skill `json:"data"`
+	data []Skill `json:"data"`
 }
 
-func getProfileHighscore(handle string) []*Skill {
+func getProfileHighscore(handle string) {
 	resp, err := http.Get("http://silabsoft.org/rs-web/highscore/tonnu")
+	var data map[string][]json.RawMessage
+	var skills []Skill
+	jsonStr, err := ioutil.ReadAll(resp.Body)
+	str := string(jsonStr[26 : len(jsonStr)-1])
+	// str = str[26:len(str)]
+	fmt.Println(str)
+	json.Unmarshal([]byte(str), &skills)
+	// jsonStr := []byte(`
+	//  {
+	//  	"data":[
+	//   {
+	//     "id":0,
+	//     "isSkill":true,
+	//     "name":"Overall",
+	//     "rank":576774,
+	//     "level":1302,
+	//     "experience":12477942
+	//   },
+	//   {
+	//     "id":1,
+	//     "isSkill":true,
+	//     "name":"Attack",
+	//     "rank":626083,
+	//     "level":70,
+	//     "experience":805403
+	//   }
+	//  ]}`)
+	// if err != nil {
+	// 	log.Fatal("Error reading All ", err)
+	// }
+	err = json.Unmarshal(jsonStr, &data)
+	if err != nil {
+		log.Fatal("Error unmarshalling ", err)
+	}
 
-	if err != nil {
-		fmt.Println(err)
-	}
-	var skill APISkill
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Println(err)
-		return nil
-	}
-	json.Unmarshal(body, &skill)
-	var skills []*Skill
+	for _, each := range data["data"] {
+		skill := &Skill{}
+		if err = json.Unmarshal(each, &skill); err != nil {
+			log.Println(err)
+		} else {
+			if skill != new(Skill) {
+				skills = append(skills, *skill)
+				fmt.Printf("%+v", skill)
+			}
+		}
 
-	fmt.Println(skill.data)
-	if err != nil {
-		fmt.Println(err)
 	}
-	return skills
+
 }
 
 func main() {
@@ -54,8 +86,8 @@ func main() {
 	})
 
 	m.Get("/profiles/:handle", func(params martini.Params) string {
-		skill := getProfileHighscore(params["handle"])
-		return "Hello " + skill[0].Name
+		getProfileHighscore(params["handle"])
+		return "Hello "
 	})
 	m.Run()
 

@@ -1,9 +1,8 @@
 package main
 
 import (
-	"encoding/json"
+	"encoding/csv"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 
@@ -29,52 +28,19 @@ type APISkill struct {
 
 func getProfileHighscore(handle string) {
 	resp, err := http.Get("http://silabsoft.org/rs-web/highscore/tonnu")
-	var data map[string][]json.RawMessage
-	var skills []Skill
-	jsonStr, err := ioutil.ReadAll(resp.Body)
-	str := string(jsonStr[26 : len(jsonStr)-1])
-	// str = str[26:len(str)]
-	fmt.Println(str)
-	json.Unmarshal([]byte(str), &skills)
-	// jsonStr := []byte(`
-	//  {
-	//  	"data":[
-	//   {
-	//     "id":0,
-	//     "isSkill":true,
-	//     "name":"Overall",
-	//     "rank":576774,
-	//     "level":1302,
-	//     "experience":12477942
-	//   },
-	//   {
-	//     "id":1,
-	//     "isSkill":true,
-	//     "name":"Attack",
-	//     "rank":626083,
-	//     "level":70,
-	//     "experience":805403
-	//   }
-	//  ]}`)
-	// if err != nil {
-	// 	log.Fatal("Error reading All ", err)
-	// }
-	err = json.Unmarshal(jsonStr, &data)
+	reader := csv.NewReader(resp.Body)
+	// reader.FieldsPerRecord = -1
+
+	cvsData, err := reader.ReadAll()
+	fmt.Printf("%+v\n", cvsData)
 	if err != nil {
-		log.Fatal("Error unmarshalling ", err)
+		log.Fatal(err)
 	}
 
-	for _, each := range data["data"] {
-		skill := &Skill{}
-		if err = json.Unmarshal(each, &skill); err != nil {
-			log.Println(err)
-		} else {
-			if skill != new(Skill) {
-				skills = append(skills, *skill)
-				fmt.Printf("%+v", skill)
-			}
-		}
-
+	// var skill Skill
+	// var skills []Skill
+	for _, each := range cvsData {
+		fmt.Println(each[1])
 	}
 
 }

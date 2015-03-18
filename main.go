@@ -29,7 +29,7 @@ type APISkill struct {
 func getProfileHighscore(handle string) {
 	resp, err := http.Get("http://silabsoft.org/rs-web/highscore/tonnu")
 	reader := csv.NewReader(resp.Body)
-	// reader.FieldsPerRecord = -1
+	reader.FieldsPerRecord = -1
 
 	cvsData, err := reader.ReadAll()
 	fmt.Printf("%+v\n", cvsData)

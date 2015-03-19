@@ -8,4 +8,4 @@ build:
     - script:
         name: env
         code: env
-        
+    - rahul286/wordpress-svn        

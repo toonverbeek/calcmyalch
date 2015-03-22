@@ -23,7 +23,8 @@ type Skill struct {
 }
 
 func getProfileHighscore(handle string) {
-	resp, err := http.Get("http://services.runescape.com/m=hiscore/index_lite.ws?player=tonnu")
+	url := fmt.Sprintf("http://services.runescape.com/m=hiscore/index_lite.ws?player=%s", handle)
+	resp, err := http.Get(url)
 	reader := csv.NewReader(resp.Body)
 	reader.FieldsPerRecord = -1
 	cvsData, err := reader.ReadAll()
@@ -31,33 +32,34 @@ func getProfileHighscore(handle string) {
 		log.Fatal(err)
 	}
 
-	csvToSkill(cvsData)
+	skills := csvToSkill(cvsData)
+	fmt.Printf("%s\nlevel:%d\nXP:%d\n", skills[0].Name, skills[0].Level, skills[0].CurrentXP)
 
 }
 
-func csvToSkill(cvsData [][]string) {
-
+func csvToSkill(cvsData [][]string) []*Skill {
 	var skills []*Skill
 
 	for x, each := range cvsData {
-		if len(each) == 3 {
+		// index 7 = magic
+		if len(each) == 3 && x == 7 {
 			if each[1] != "-1" && each[2] != "-1" {
-				if x == 7 {
-					rank, _ := strconv.Atoi(each[0])
-					level, _ := strconv.Atoi(each[1])
-					xp, _ := strconv.Atoi(each[2])
-					skill := &Skill{
-						Name:      "magic",
-						CurrentXP: xp,
-						Level:     level,
-						Rank:      rank,
-					}
-					skills = append(skills, skill)
-					fmt.Println(each[1], each[2])
+				rank, _ := strconv.Atoi(each[0])
+				level, _ := strconv.Atoi(each[1])
+				xp, _ := strconv.Atoi(each[2])
+				skill := &Skill{
+					Name:      "Magic",
+					CurrentXP: xp,
+					Level:     level,
+					Rank:      rank,
 				}
+				skills = append(skills, skill)
 			}
 		}
 	}
+
+	return skills
+
 }
 
 func main() {

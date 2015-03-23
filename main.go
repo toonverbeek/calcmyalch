@@ -6,8 +6,10 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/go-martini/martini"
+	"github.com/melvinmt/firebase"
 )
 
 type Profile struct {
@@ -16,13 +18,14 @@ type Profile struct {
 }
 
 type Skill struct {
-	Name      string `json:"name"`
-	CurrentXP int    `json:"experience"`
-	Level     int    `json:"level"`
-	Rank      int    `json:"rank"`
+	timeStamp time.Time
+	name      string `json:"name"`
+	currentXP int    `json:"experience"`
+	level     int    `json:"level"`
+	rank      int    `json:"rank"`
 }
 
-func getProfileHighscore(handle string) {
+func getProfileHighscore(handle string) *Skill {
 	url := fmt.Sprintf("http://services.runescape.com/m=hiscore/index_lite.ws?player=%s", handle)
 	resp, err := http.Get(url)
 	reader := csv.NewReader(resp.Body)
@@ -33,7 +36,7 @@ func getProfileHighscore(handle string) {
 	}
 
 	skills := csvToSkill(cvsData)
-	fmt.Printf("%s\nlevel:%d\nXP:%d\n", skills[0].Name, skills[0].Level, skills[0].CurrentXP)
+	return skills[0]
 
 }
 
@@ -48,10 +51,10 @@ func csvToSkill(cvsData [][]string) []*Skill {
 				level, _ := strconv.Atoi(each[1])
 				xp, _ := strconv.Atoi(each[2])
 				skill := &Skill{
-					Name:      "Magic",
-					CurrentXP: xp,
-					Level:     level,
-					Rank:      rank,
+					name:      "Magic",
+					currentXP: xp,
+					level:     level,
+					rank:      rank,
 				}
 				skills = append(skills, skill)
 			}
@@ -62,6 +65,26 @@ func csvToSkill(cvsData [][]string) []*Skill {
 
 }
 
+func writeToFirebase(skill *Skill) {
+	var err error
+	skill.timeStamp = time.Now()
+
+	authtoken := "n9h6qpBDPgt6q8XKvwunbNVTBdM4RSYxqfdTjlXx"
+	// day := skill.timeStamp.Day()
+	// month := skill.timeStamp.Month()
+	// year := skill.timeStamp.Year()
+	// url := fmt.Sprintf("https://calchmyalch.firebaseio.com/users/tonnu/%d-%d-%d/magic", day, month, year)
+	url := "https://calchmyalch.firebaseio.com/users/tonnu/magic"
+	fmt.Println(url)
+	ref := firebase.NewReference(url).Auth(authtoken)
+
+	if err = ref.Write(skill); err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("looks like it worked.")
+
+}
+
 func main() {
 	m := martini.Classic()
 	m.Get("/", func() string {
@@ -69,8 +92,9 @@ func main() {
 	})
 
 	m.Get("/profiles/:handle", func(params martini.Params) string {
-		getProfileHighscore(params["handle"])
-		return "Hello "
+		skill := getProfileHighscore(params["handle"])
+		writeToFirebase(skill)
+		return fmt.Sprintf("Skill:%s\nLevel:%d\nExperience:%d\nRank:%d\n", skill.name, skill.level, skill.currentXP, skill.rank)
 	})
 	m.Run()
 

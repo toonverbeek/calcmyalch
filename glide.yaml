@@ -7,3 +7,4 @@ package: main
 # Declare your project's dependencies.
 import:
   - package: github.com/go-martini/martini
+  - pacakge: github.com/melvinmt/firebase

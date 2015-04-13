@@ -44,7 +44,7 @@ func csvToSkill(cvsData [][]string) []*Skill {
 	var skills []*Skill
 
 	for x, each := range cvsData {
-		// index 7 = magic
+		// each line must contain 3 values && index 7 = magic
 		if len(each) == 3 && x == 7 {
 			if each[1] != "-1" && each[2] != "-1" {
 				rank, _ := strconv.Atoi(each[0])

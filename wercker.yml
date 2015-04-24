@@ -7,7 +7,9 @@ services:
 build:
     steps:
         - bundle-install
-
+        - script:
+            name: mkdir config
+            code: mkdir config
         - rails-database-yml
         - script:
             name: echo ruby information

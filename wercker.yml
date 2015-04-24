@@ -9,7 +9,7 @@ build:
         - bundle-install
 
         - rails-database-yml:
-            service: postgres
+            service: postgresql
 
         - script:
             name: echo ruby information

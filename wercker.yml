@@ -5,7 +5,7 @@ services:
       RABBITMQ_NODENAME: my-rabbit  
 build:
     steps:
-         - script:
+        - script:
             name: ping
             code: ping $RABBITMQ_PORT_5672_TCP_ADDR:$RABBITMQ_PORT_5672_TCP_PORT 
         - script:

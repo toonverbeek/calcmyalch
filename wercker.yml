@@ -1,27 +1,8 @@
 box: rails
 services:
-   - id: postgres
-     env:
-       POSTGRES_PASSWORD: ourlittlesecret
-       POSTGRES_USER: myuser
+  - id: mongo 
 build:
     steps:
-        - bundle-install
-        - script:
-            name: mkdir config
-            code: mkdir config
-        - rails-database-yml
-        - script:
-            name: echo ruby information
-            code: |
-                echo "ruby version $(ruby --version) running!"
-                echo "from location $(which ruby)"
-                echo -p "gem list: $(gem list)"
-
-        - script:
-            name: Set up db
-            code: bundle exec rake db:schema:load RAILS_ENV=test
-
         - script:
             name: rspec
             code: bundle exec rspec

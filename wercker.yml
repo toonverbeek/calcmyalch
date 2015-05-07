@@ -2,7 +2,7 @@ box: rails
 services:
   - id: rabbitmq
     env:
-      RABBITMQ_NODENAME=my-rabbit  
+      RABBITMQ_NODENAME: my-rabbit  
 build:
     steps:
         - script:

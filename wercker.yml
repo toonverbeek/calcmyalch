@@ -5,5 +5,5 @@ build:
     steps:
         - script:
             name: wget
-            code: env 
+            code: env | grep MONGO 
      

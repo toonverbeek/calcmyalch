@@ -10,4 +10,4 @@ build:
             code: env | grep RABBIT
         - script:
             name: curl rabbit
-            code: curl RABBITMQ_PORT_5672_TCP_ADDR:RABBITMQ_PORT_5672_TCP_PORT  
+            code: curl $RABBITMQ_PORT_5672_TCP_ADDR:$RABBITMQ_PORT_5672_TCP_PORT  

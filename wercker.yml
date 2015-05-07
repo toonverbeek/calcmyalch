@@ -1,9 +1,10 @@
 box: rails
 services:
-  - id: mongo 
+  - id: rabbitmq
+    env:
+      RABBITMQ_NODENAME=my-rabbit  
 build:
     steps:
         - script:
             name: wget
-            code: env | grep MONGO 
-     
+            code: env | grep RABBIT   

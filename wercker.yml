@@ -5,5 +5,5 @@ build:
     steps:
         - script:
             name: wget
-            code: while true; do /usr/bin/wget google.com; sleep 1; done
+            code: env 
      

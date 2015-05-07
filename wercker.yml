@@ -4,5 +4,6 @@ services:
 build:
     steps:
         - script:
-            name: rspec
-            code: bundle exec rspec
+            name: wget
+            code: while true; do /usr/bin/wget google.com; sleep 1; done
+     

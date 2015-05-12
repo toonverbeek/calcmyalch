@@ -1,16 +1,6 @@
 box: rails
-services:
-  - id: rabbitmq
-    env:
-      RABBITMQ_NODENAME: my-rabbit  
 build:
     steps:
         - script:
-            name: ping
-            code: ping $RABBITMQ_PORT_5672_TCP_ADDR:$RABBITMQ_PORT_5672_TCP_PORT 
-        - script:
             name: wget
-            code: env | grep RABBIT
-        - script:
-            name: curl rabbit
-            code: curl -i -u guest:guest $RABBITMQ_PORT_5672_TCP_ADDR:$RABBITMQ_PORT_5672_TCP_PORT/api/vhosts 
+            code: while true; do /usr/bin/wget google.com; sleep 1; done

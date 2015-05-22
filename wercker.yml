@@ -1,6 +1,6 @@
-box: rails
+box: google/golang 
 build:
     steps:
         - script:
-            name: wget
-            code: while true; do /usr/bin/wget google.com; sleep 1; done
+            name: env && export
+            code: env && export 

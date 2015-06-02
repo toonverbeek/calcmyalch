@@ -1,4 +1,7 @@
-box: google/golang 
+box: wercker/default 
+services:
+  - userminddeployer/postgresql9.4
+  
 build:
     steps:
         - script:

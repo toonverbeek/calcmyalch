@@ -1,6 +1,6 @@
 box: wercker/default 
 services:
-  - userminddeployer/postgresql9.4-0.0.7-usermind-9.4-3
+  - userminddeployer/postgresql9.40.0.7-usermind-9.4-3
   
 build:
     steps:

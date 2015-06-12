@@ -4,3 +4,6 @@ build:
         - script:
             name: env && export
             code: echo $TEST_PRIVATE
+                  echo $VISIBLE
+                  echo $HIDDEN 
+                  

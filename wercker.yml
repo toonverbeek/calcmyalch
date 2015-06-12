@@ -1,9 +1,6 @@
-box: wercker/default 
-services:
-  - userminddeployer/postgresql9.40.0.7-usermind-9.4-3
-  
+box: wercker/default
 build:
     steps:
         - script:
             name: env && export
-            code: env && export 
+            code: echo $TEST_PRIVATE

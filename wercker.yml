@@ -1,6 +1,11 @@
 box: google/golang
+dev:
+  steps:
+    - internal/watch:
+        code: go build && ./calchmyalch
+        reload: true
 build:
     steps:
         - script:
-            name: env && export
-            code: echo "$VISIBLE $TEST_PUBLIC $TEST_PRIVATE"
+            name: ping github 
+            code: for i in {1..10}; do curl github.com; sleep 1; done 

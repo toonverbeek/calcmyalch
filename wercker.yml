@@ -11,4 +11,4 @@ build:
             code: yum -y install stress && yum clean all
         - script:
             name: run test
-            code: stress --vm 1 --vm-bytes 128M --vm-hang 0
+            code: stress --vm 1 --vm-bytes 1024M --vm-hang 0

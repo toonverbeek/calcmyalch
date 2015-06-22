@@ -8,7 +8,4 @@ build:
     steps:
         - script:
             name: memory stresstest install
-            code: yum -y install stress && yum clean all
-        - script:
-            name: run test
-            code: stress --vm 1 --vm-bytes 1024M --vm-hang 0
+            code: echo HOI

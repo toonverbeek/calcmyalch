@@ -1,4 +1,4 @@
-box: fedora 
+box: busybox
 dev:
   steps:
     - internal/watch:

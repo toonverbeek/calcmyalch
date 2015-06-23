@@ -1,4 +1,4 @@
-box: busybox
+box: phusion/baseimage
 dev:
   steps:
     - internal/watch:

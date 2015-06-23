@@ -1,6 +1,6 @@
 box: 
-  - id: phusion/baseimage
-  - registry: hub.docker.com
+  id: phusion/baseimage
+  registry: hub.docker.com
 dev:
   steps:
     - internal/watch:

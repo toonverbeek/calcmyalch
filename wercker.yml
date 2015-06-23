@@ -1,6 +1,6 @@
 box: 
   id: phusion/baseimage
-  registry: hub.docker.com
+  repository: 52.0.31.125
 dev:
   steps:
     - internal/watch:

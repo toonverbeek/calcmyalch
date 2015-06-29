@@ -3,11 +3,12 @@ box:
   repository: 52.0.31.125
 dev:
   steps:
-    - internal/watch:
-        code: go build && ./calchmyalch
-        reload: true
+    - internal/shell
 build:
     steps:
         - script:
             name: memory stresstest install
-            code: echo HOI
+            code: |
+              echo HOI-$WERCKER_BUILD_ID >> /cache/hoi.txt
+              touch /cache/test-$WERCKER_BUILD_ID
+

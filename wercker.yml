@@ -11,4 +11,6 @@ build:
             code: |
               echo HOI-$WERCKER_BUILD_ID >> /cache/hoi.txt
               touch /cache/test-$WERCKER_BUILD_ID
+              ls -la $WERCKER_CACHE_DIR
+              ls -la /cache
 

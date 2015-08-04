@@ -8,9 +8,4 @@ build:
     steps:
         - script:
             name: memory stresstest install
-            code: |
-              echo HOI-$WERCKER_BUILD_ID >> $WERCKER_CACHE_DIR/hoi.txt
-              touch $WERCKER_CACHE_DIR/test-$WERCKER_BUILD_ID
-              ls -la $WERCKER_CACHE_DIR
-              cat $WERCKER_CACHE_DIR/hoi.txt
-
+            code: cat does-not-exist.file

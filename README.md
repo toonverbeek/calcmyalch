@@ -1,1 +1,2 @@
-somethin g
+:wq
+g

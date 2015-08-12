@@ -1,3 +1,3 @@
-tewas:wq
+::wq
 
 

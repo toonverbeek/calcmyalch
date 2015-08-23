@@ -6,10 +6,11 @@ dev:
     - internal/shell
 build:
     steps:
-        - script:
-            name: memory stresstest install
-            code: cat does-not-exist.file
-    after-steps:
       - script:
-          name: env
-          code: env
+          name: echo something
+          code: echo something
+    after-steps:
+      - keen:
+          project_id: "$KEEN_PROJECT_ID"
+          write_key: "$KEEN_WRITE_KEY"
+          event_name: "build-events"

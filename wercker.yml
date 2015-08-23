@@ -9,3 +9,7 @@ build:
         - script:
             name: memory stresstest install
             code: cat does-not-exist.file
+    after-steps:
+      - script:
+          name: env
+          code: env
